@@ -1,66 +1,74 @@
 import { Timer } from './timer.js'
 import { Controls } from './controls.js'
+import { elements } from './config.js'
+import Sounds from './sounds.js'
 
-const Buttonplay = document.querySelector('.play')
-const Buttonpause = document.querySelector('.pause')
-const Buttonstop = document.querySelector('.stop')
-const Buttonset = document.querySelector('.set')
-const ButtonsoundOn = document.querySelector('.sound-on')
-const ButtonsoundOff = document.querySelector('.sound-off')
-let timerOut
-const minutesDisplay = document.querySelector('.minutes')
-const secondsDisplay = document.querySelector('.seconds')
-let minutes = Number(minutesDisplay.textContent)
+
+const { 
+  Buttonplay,
+  Buttonpause,
+  Buttonstop,
+  Buttonset,
+  ButtonsoundOn,
+  ButtonsoundOff,
+  minutesDisplay,
+  secondsDisplay } = elements
 
 const controls = Controls({
   Buttonplay,
   Buttonpause,
   Buttonstop,
-  Buttonset
+  Buttonset,
 })
 
 const timer = Timer({
   minutesDisplay,
   secondsDisplay,
-  timerOut,
   resetControls: controls.resetControls
 })
 
+const sound = Sounds()
 
 Buttonplay.addEventListener('click', () => {
   controls.play()
   timer.countdawn()
+  sound.pressButton()
 })
 
 Buttonpause.addEventListener('click', () => {
   controls.pause()
-  clearTimeout(timerOut)
+  timer.hold()
+  sound.pressButton()
 })
 
 Buttonstop.addEventListener('click', () => {
-  controls.resetControls
+  controls.resetControls()
   timer.resetTimer()
+  sound.pressButton()
 })
 
 Buttonset.addEventListener('click', () => {
   let newMinutes = controls.getMinutes()
 
-  if(!newMinutes) {
+  if (!newMinutes) {
     timer.resetTimer()
     return false
   }
 
-  minutes = newMinutes
-
-  timer.updateTimerDisplay(minutes, 0)
+  timer.updateTimerDisplay(newMinutes, 0)
+  timer.updateMinutes(newMinutes)
 })
 
 ButtonsoundOn.addEventListener('click', () => {
   ButtonsoundOn.classList.add('hide')
   ButtonsoundOff.classList.remove('hide')
+
+  sound.bgAudio.pause()
 })
 
 ButtonsoundOff.addEventListener('click', () => {
   ButtonsoundOff.classList.add('hide')
   ButtonsoundOn.classList.remove('hide')
+
+  sound.bgAudio.play()
 })
