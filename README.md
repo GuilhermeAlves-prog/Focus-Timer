@@ -5,7 +5,7 @@ esse mini app é um timer estilo pomodoro com sons , o usuario pode escolher os 
 nesse projeto foi trabalhado a responsividade com grid e usado também o recurso clamp para medidas responsivas, no javascript foi trabalhado os modulos com import e export a criação de functions factore , injeção de dependências passando um objeto de dependencias para a function factore, conceitos e prática de clean code 
 ### Deploy
 
-acesse [aqui](https://guilhermealves-prog.github.io/Focus-Timer/)
+acesse [aqui](https://guialvess.github.io/Focus-Timer/)
 
 ## Tecnologias
 - HTML
